@@ -14,14 +14,8 @@ cov:
 mypy:
 	mypy . --ignore-missing-imports
 
-pylint:
-	pylint ubc1
-
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
-
-update:
-	pur
 
 update-pre:
 	pre-commit autoupdate --bleeding-edge
@@ -34,11 +28,8 @@ build:
 	pip install build
 	python -m build
 
-jupytext:
-	jupytext docs/**/*.ipynb --to py
-
-notebooks:
-	jupytext docs/**/*.py --to ipynb
+mask:
+	python ubc1/test_masks.py
 
 docs:
 	jb build docs
