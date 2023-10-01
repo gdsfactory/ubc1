@@ -1,9 +1,9 @@
 """Write all mask for the course."""
 import shutil
 
-import ubcpdk.samples.ubc_helge as m12
-import ubcpdk.samples.ubc_joaquin_matres1 as m11
-import ubcpdk.samples.ubc_simon as m13
+import ubc1.ubc_helge as m12
+import ubc1.ubc_joaquin_matres1 as m11
+import ubc1.ubc_simon as m13
 from ubcpdk.config import PATH
 
 

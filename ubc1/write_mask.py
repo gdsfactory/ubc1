@@ -6,8 +6,9 @@ import gdsfactory as gf
 from omegaconf import OmegaConf
 
 import ubcpdk
-from ubcpdk.config import PATH
 from ubcpdk.tech import LAYER
+
+from ubc1.config import PATH
 
 size = (440, 470)
 add_gc = ubcpdk.components.add_fiber_array
@@ -18,12 +19,12 @@ pack = partial(
 
 def write_mask_gds_with_metadata(m) -> Path:
     """Returns"""
-    gdspath = PATH.mask / f"{m.name}.gds"
-    m.write_gds_with_metadata(gdspath=gdspath)
+    gdspath = PATH.build / f"{m.name}.gds"
+    m.write_gds(gdspath=gdspath, with_metadata=True)
     metadata_path = gdspath.with_suffix(".yml")
     OmegaConf.load(metadata_path)
     gf.labels.write_labels.write_labels_gdstk(
-        gdspath=gdspath, layer_label=LAYER.LABEL, debug=True
+        gdspath=gdspath, layer_label=LAYER.TEXT, debug=True
     )
     # test_metadata_path = gdspath.with_suffix(".tp.yml")
 

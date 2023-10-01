@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 import ubcpdk
 import ubcpdk.components as pdk
-from ubcpdk.samples.write_mask import write_mask_gds_with_metadata
+from ubc1.write_mask import write_mask_gds_with_metadata
 from ubcpdk.tech import LAYER
 
 via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
@@ -20,7 +20,7 @@ via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
 
 size = (440, 470)
 add_gc = ubcpdk.components.add_fiber_array
-
+layer_label = LAYER.TEXT
 GC_PITCH = 127
 
 
@@ -32,8 +32,8 @@ def ring_single_heater(
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = _coupler_ring,
     bend: ComponentSpec = bend_euler,
-    cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
+    cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: list[float] | None = (180, 0),
     via_stack_offset: Float2 = (0, 0),
@@ -79,7 +79,7 @@ def ring_single_heater(
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
-        bend_cross_section=cross_section_waveguide_heater,
+        cross_section_bend=cross_section_waveguide_heater,
         **kwargs,
     )
 
@@ -357,7 +357,7 @@ def test_mask1() -> Path:
     g.ymin = 1
 
     m.add_ports(g.ports)
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     m.name = "EBeam_JoaquinMatres_Simon_0"
     return write_mask_gds_with_metadata(m)
 
@@ -486,7 +486,7 @@ def crosstalk_experiment_parametrized_mask(
         dx = -50
         route = gf.routing.get_route_from_waypoints(
             [(x0, y0), (x0 + dx, y0), (x0 + dx, y2), (x2, y2)],
-            cross_section="metal_routing",
+            cross_section="xs_metal_routing",
             bend=gf.components.wire_corner,
         )
         m.add(route.references)
@@ -500,7 +500,7 @@ def crosstalk_experiment_parametrized_mask(
         dx = 50
         route = gf.routing.get_route_from_waypoints(
             [(x0, y0), (x0 + dx, y0), (x0 + dx, y2), (x2, y2)],
-            cross_section="metal_routing",
+            cross_section="xs_metal_routing",
             bend=gf.components.wire_corner,
         )
         m.add(route.references)
@@ -516,8 +516,8 @@ def crosstalk_experiment_parametrized_mask(
             anchor="o",
             magnification=1.0,
             rotation=0.0,
-            layer=LAYER.LABEL[0],
-            texttype=LAYER.LABEL[1],
+            layer=layer_label[0],
+            texttype=layer_label[1],
             x_reflection=False,
         )
         m.add(label)
@@ -529,8 +529,8 @@ def crosstalk_experiment_parametrized_mask(
                 anchor="o",
                 magnification=1.0,
                 rotation=0.0,
-                layer=LAYER.LABEL[0],
-                texttype=LAYER.LABEL[1],
+                layer=layer_label[0],
+                texttype=layer_label[1],
                 x_reflection=False,
             )
             m.add(label)

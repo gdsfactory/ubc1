@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 import ubcpdk
 import ubcpdk.components as pdk
-from ubcpdk.samples.write_mask import pack, size, write_mask_gds_with_metadata
+from ubc1.write_mask import pack, size, write_mask_gds_with_metadata
 from ubcpdk.tech import LAYER
 
 add_gc = ubcpdk.components.add_fiber_array
@@ -15,7 +15,7 @@ def test_mask1() -> Path:
     """DBR filters."""
 
     @gf.cell
-    def dbr_filter(n):
+    def dbr_filter(n)->gf.Component:
         c = gf.Component()
         splitter = pdk.ebeam_bdc_te1550()
 
@@ -51,7 +51,7 @@ def test_mask1() -> Path:
     c = pack(rings_gc)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_Helge_1"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ =m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -77,7 +77,7 @@ def test_mask2() -> Path:
     c = pack(e)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_Helge_2"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ =m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 

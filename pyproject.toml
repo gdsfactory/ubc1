@@ -18,7 +18,7 @@ authors = [
 keywords = ["python"]
 license = {file = "LICENSE"}
 dependencies = [
-    "matplotlib",
+    "ubcpdk",
 ]
 readme = "README.md"
 requires-python = ">=3.10"

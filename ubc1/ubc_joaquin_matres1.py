@@ -8,9 +8,10 @@ import gdsfactory as gf
 import ubcpdk
 import ubcpdk.components as pdk
 from ubcpdk import tech
-from ubcpdk.cutback_2x2 import cutback_2x2
-from ubcpdk.samples.write_mask import add_gc, pack, size, write_mask_gds_with_metadata
 from ubcpdk.tech import LAYER
+
+from ubc1.cutback_2x2 import cutback_2x2
+from ubc1.write_mask import add_gc, pack, size, write_mask_gds_with_metadata
 
 
 def test_mask1() -> Path:
@@ -38,7 +39,7 @@ def test_mask1() -> Path:
     c = pack(e)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_11"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -74,7 +75,7 @@ def test_mask2() -> Path:
 
     m = c[0]
     m.name = "EBeam_JoaquinMatres_12"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -93,7 +94,7 @@ def test_mask3() -> Path:
     c = pack(e)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_13"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -112,7 +113,7 @@ def test_mask4() -> Path:
     c = pack(mzis_gc + mzis_heater_gc)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_14"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -125,7 +126,7 @@ def test_mask5() -> Path:
     c = pack(rings_gc)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_15"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -143,7 +144,7 @@ def test_mask6() -> Path:
     c = pack(mmis_gc)
     m = c[0]
     m.name = "EBeam_JoaquinMatres_16"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
@@ -173,19 +174,19 @@ def test_mask7() -> Path:
 
     m = c[0]
     m.name = "EBeam_JoaquinMatres_17"
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     return write_mask_gds_with_metadata(m)
 
 
 if __name__ == "__main__":
-    # m = test_mask1()  # dbr and mzi
-    # m = test_mask2()  # spirals
-    # m = test_mask3()  # coupler and crossing
-    # m = test_mask4()  # heated mzis
-    # m = test_mask5()  # heated rings
-    # m = test_mask6()  # 1x2 mmis
-    m = test_mask7()  # 2x2mmis
-    gf.show(m)
+    # c = test_mask1()  # dbr and mzi
+    # c = test_mask2()  # spirals
+    # c = test_mask3()  # coupler and crossing
+    c = test_mask4()  # heated mzis
+    # c = test_mask5()  # heated rings
+    # c = test_mask6()  # 1x2 mmis
+    # c = test_mask7()  # 2x2mmis
+    gf.show(c)
     # c = partial(
     #     gf.components.mmi2x2_with_sbend,
     #     decorator=tech.add_pins_bbox_siepic_remove_layers,
