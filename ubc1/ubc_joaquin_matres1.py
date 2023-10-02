@@ -179,10 +179,10 @@ def test_mask7() -> Path:
 
 
 if __name__ == "__main__":
-    # c = test_mask1()  # dbr and mzi
+    c = test_mask1()  # dbr and mzi
     # c = test_mask2()  # spirals
     # c = test_mask3()  # coupler and crossing
-    c = test_mask4()  # heated mzis
+    # c = test_mask4()  # heated mzis
     # c = test_mask5()  # heated rings
     # c = test_mask6()  # 1x2 mmis
     # c = test_mask7()  # 2x2mmis

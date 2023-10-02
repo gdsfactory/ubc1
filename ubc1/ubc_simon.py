@@ -35,7 +35,7 @@ def ring_single_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
-    port_orientation: list[float] | None = (180, 0),
+    port_orientation: tuple[float, ...] | None = (180, 0),
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> gf.Component:
@@ -132,11 +132,18 @@ def ring_single_heater(
 
 @gf.cell
 def rings_proximity(
-    num_rings=5,
-    sep_resonators=2,
-    radius=10.0,
+    num_rings: int = 5,
+    sep_resonators: float = 2.0,
+    radius: float = 10.0,
 ) -> gf.Component:
-    """A sequence of multiple rings, with the first one having a heater."""
+    """A sequence of multiple rings, with the first one having a heater.
+
+    Args:
+        num_rings: number of rings.
+        sep_resonators: separation between resonators.
+        radius: radius of the rings.
+
+    """
     c = gf.Component()
     gap = 0.2  # TODO: make variable
     width = 0.5  # TODO: make variable
@@ -227,11 +234,11 @@ def resonator_proximity_io(
     """Resonator proximity experiment with fiber array.
 
     Arguments:
-        resonator_array: component with resonator array (first one needs a heater)
-        num_resonators, sep_resonators, radius_resonators: resonator_array arguments
-        grating_buffer: distance between neighbouring grating couplers
-        waveguide_buffer: distance between bus waveguides
-        gc_bus_buffer: distance between the closest bus waveguide and grating coupler ports
+        resonator_array: component with resonator array (first one needs a heater).
+        num_resonators, sep_resonators, radius_resonators: resonator_array arguments.
+        grating_buffer: distance between neighbouring grating couplers.
+        waveguide_buffer: distance between bus waveguides.
+        gc_bus_buffer: distance between the closest bus waveguide and grating coupler ports.
     """
     c = gf.Component()
     resonators = c << resonator_array(
@@ -376,16 +383,17 @@ def crosstalk_experiment_parametrized_mask(
 ) -> gf.Component:
     """Ring resonators with thermal cross-talk.
 
-    name: for labels
-    num_gcs: number of grating couplers (should be <10)
-    num_gc_per_pitch: number of grating couplers within a GC pitch (5 is optimal)
-    sep_resonators: distance between the resonators
-    ring_y_offset: manual offset for the resonator positions to make the routes DRC clean
-    resonator_func: rings_proximity or disks_proximity
-    fill_layers: layers to add as unity dennity fill around the rings
-    fill_margin: keepout between the fill_layers and the same design layers
-    fill_size: tiling size
-    padding: how much to extend the fill beyond the ring component
+    Args:
+        name: for labels.
+        num_gcs: number of grating couplers (should be <10).
+        num_gc_per_pitch: number of grating couplers within a GC pitch (5 is optimal).
+        sep_resonators: distance between the resonators.
+        ring_y_offset: manual offset for the resonator positions to make the routes DRC clean.
+        resonator_func: rings_proximity or disks_proximity.
+        fill_layers: layers to add as unity dennity fill around the rings.
+        fill_margin: keepout between the fill_layers and the same design layers.
+        fill_size: tiling size.
+        padding: how much to extend the fill beyond the ring component.
     """
     m = gf.Component()
 
@@ -422,7 +430,7 @@ def crosstalk_experiment_parametrized_mask(
     rings.movex(g.xmin + 225).movey((pads.ymin + pads.ymax) / 2 + ring_y_offset)
     if fill_layers:
         for layer in fill_layers:
-            m << gf.fill_rectangle(
+            _ = m << gf.fill_rectangle(
                 rings,
                 fill_size=fill_size,
                 fill_layers=[layer],
@@ -536,7 +544,7 @@ def crosstalk_experiment_parametrized_mask(
             m.add(label)
 
     m.add_ports(g.ports)
-    m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
+    _ = m << gf.components.rectangle(size=size, layer=LAYER.FLOORPLAN)
     m.name = name
     return m
 

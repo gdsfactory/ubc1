@@ -18,7 +18,7 @@ pack = partial(
 
 
 def write_mask_gds_with_metadata(m) -> Path:
-    """Returns"""
+    """Returns gdspath."""
     gdspath = PATH.build / f"{m.name}.gds"
     m.write_gds(gdspath=gdspath, with_metadata=True)
     metadata_path = gdspath.with_suffix(".yml")
@@ -26,10 +26,4 @@ def write_mask_gds_with_metadata(m) -> Path:
     gf.labels.write_labels.write_labels_gdstk(
         gdspath=gdspath, layer_label=LAYER.TEXT, debug=True
     )
-    # test_metadata_path = gdspath.with_suffix(".tp.yml")
-
-    # tm = gf.labels.merge_test_metadata(
-    #     labels_path=labels_path, mask_metadata=mask_metadata
-    # )
-    # test_metadata_path.write_text(OmegaConf.to_yaml(tm))
     return gdspath
