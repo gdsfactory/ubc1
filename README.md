@@ -7,4 +7,3 @@ ubc mask1
 ## Installation
 
 `make install`
-

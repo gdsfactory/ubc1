@@ -5,4 +5,3 @@ Config
 ---------------------
 
 .. automodule:: ubc1.config
-
