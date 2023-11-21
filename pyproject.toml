@@ -14,7 +14,7 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "ubcpdk==2.2.2"
+  "ubcpdk==2.3.4"
 ]
 description = "ubc mask1"
 keywords = ["python"]
